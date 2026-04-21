@@ -2,6 +2,7 @@ package com.library.seatsystem.service;
 
 import com.library.seatsystem.dto.LoginRequest;
 import com.library.seatsystem.dto.LoginResponse;
+import com.library.seatsystem.dto.RegisterRequest;
 import com.library.seatsystem.entity.User;
 import com.library.seatsystem.exception.BusinessException;
 import com.library.seatsystem.repository.UserRepository;
@@ -29,6 +30,27 @@ public class AuthService {
                 user.getUsername(),
                 user.getRealName(),
                 user.getRole()
+        );
+    }
+
+    public LoginResponse register(RegisterRequest request) {
+        if (userRepository.existsByUsername(request.getUsername())) {
+            throw new BusinessException("用户名已存在");
+        }
+
+        User user = new User();
+        user.setUsername(request.getUsername());
+        user.setPassword(request.getPassword());
+        user.setRealName(request.getRealName());
+        user.setRole("STUDENT");
+
+        User savedUser = userRepository.save(user);
+
+        return new LoginResponse(
+                savedUser.getId(),
+                savedUser.getUsername(),
+                savedUser.getRealName(),
+                savedUser.getRole()
         );
     }
 }

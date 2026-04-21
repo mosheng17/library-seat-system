@@ -1,10 +1,5 @@
 package com.library.seatsystem.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-
-@Data
-@AllArgsConstructor
 public class SeatResponse {
 
     private Long id;
@@ -12,5 +7,32 @@ public class SeatResponse {
     private String roomName;
     private String seatCode;
     private String status;
-}
 
+    public SeatResponse(Long id, Long roomId, String roomName, String seatCode, String status) {
+        this.id = id;
+        this.roomId = roomId;
+        this.roomName = roomName;
+        this.seatCode = seatCode;
+        this.status = status;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public Long getRoomId() {
+        return roomId;
+    }
+
+    public String getRoomName() {
+        return roomName;
+    }
+
+    public String getSeatCode() {
+        return seatCode;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+}

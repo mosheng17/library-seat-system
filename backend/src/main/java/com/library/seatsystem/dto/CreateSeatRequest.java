@@ -2,9 +2,6 @@ package com.library.seatsystem.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.Data;
-
-@Data
 public class CreateSeatRequest {
 
     @NotNull(message = "自习室不能为空")
@@ -15,5 +12,28 @@ public class CreateSeatRequest {
 
     @NotBlank(message = "座位状态不能为空")
     private String status;
-}
 
+    public Long getRoomId() {
+        return roomId;
+    }
+
+    public void setRoomId(Long roomId) {
+        this.roomId = roomId;
+    }
+
+    public String getSeatCode() {
+        return seatCode;
+    }
+
+    public void setSeatCode(String seatCode) {
+        this.seatCode = seatCode;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+}

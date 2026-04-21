@@ -9,9 +9,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import lombok.Data;
-
-@Data
 @Entity
 @Table(name = "seats")
 public class Seat {
@@ -29,5 +26,36 @@ public class Seat {
 
     @Column(nullable = false, length = 20)
     private String status;
-}
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public StudyRoom getStudyRoom() {
+        return studyRoom;
+    }
+
+    public void setStudyRoom(StudyRoom studyRoom) {
+        this.studyRoom = studyRoom;
+    }
+
+    public String getSeatCode() {
+        return seatCode;
+    }
+
+    public void setSeatCode(String seatCode) {
+        this.seatCode = seatCode;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+}
