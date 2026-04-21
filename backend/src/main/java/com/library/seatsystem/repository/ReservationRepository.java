@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
     List<Reservation> findByUserIdOrderByStartTimeDesc(Long userId);
+    List<Reservation> findAllByOrderByStartTimeDesc();
 
     @Query("""
             select count(r) > 0
