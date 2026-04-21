@@ -33,6 +33,27 @@ body {
   color: #475569;
 }
 
+.nav-links {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  margin-top: 18px;
+}
+
+.nav-links a {
+  padding: 8px 14px;
+  border-radius: 999px;
+  color: #0f172a;
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.7);
+  transition: 0.2s ease;
+}
+
+.nav-links a.router-link-active {
+  background: #0f172a;
+  color: #ffffff;
+}
+
 .page-content {
   max-width: 1100px;
   margin: 0 auto;
@@ -52,3 +73,15 @@ body {
   gap: 16px;
 }
 
+.form-card {
+  max-width: 460px;
+  margin: 0 auto;
+}
+
+.result-box {
+  margin-top: 20px;
+  padding: 16px;
+  border-radius: 14px;
+  background: #f8fafc;
+  color: #334155;
+}

@@ -40,11 +40,13 @@ INSERT INTO users (username, password, role, real_name)
 VALUES
 ('student01', '123456', 'STUDENT', '张三'),
 ('admin01', '123456', 'ADMIN', '管理员')
-ON DUPLICATE KEY UPDATE username = VALUES(username);
+ON DUPLICATE KEY UPDATE
+password = VALUES(password),
+role = VALUES(role),
+real_name = VALUES(real_name);
 
 INSERT INTO study_rooms (room_name, floor, capacity)
 VALUES
 ('A101自习室', 1, 40),
 ('B201自习室', 2, 60)
 ON DUPLICATE KEY UPDATE room_name = VALUES(room_name);
-
