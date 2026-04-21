@@ -1,6 +1,6 @@
 package com.library.seatsystem.service;
 
-import com.library.seatsystem.entity.Seat;
+import com.library.seatsystem.dto.SeatResponse;
 import com.library.seatsystem.repository.SeatRepository;
 import java.util.List;
 import org.springframework.stereotype.Service;
@@ -14,8 +14,15 @@ public class SeatService {
         this.seatRepository = seatRepository;
     }
 
-    public List<Seat> getSeatsByRoom(Long roomId) {
-        return seatRepository.findByStudyRoomId(roomId);
+    public List<SeatResponse> getSeatsByRoom(Long roomId) {
+        return seatRepository.findByStudyRoomId(roomId).stream()
+                .map(seat -> new SeatResponse(
+                        seat.getId(),
+                        seat.getStudyRoom().getId(),
+                        seat.getStudyRoom().getRoomName(),
+                        seat.getSeatCode(),
+                        seat.getStatus()
+                ))
+                .toList();
     }
 }
-

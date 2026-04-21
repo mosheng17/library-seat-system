@@ -50,3 +50,27 @@ VALUES
 ('A101自习室', 1, 40),
 ('B201自习室', 2, 60)
 ON DUPLICATE KEY UPDATE room_name = VALUES(room_name);
+
+INSERT INTO seats (room_id, seat_code, status)
+SELECT 1, 'A101-01', 'AVAILABLE'
+WHERE NOT EXISTS (SELECT 1 FROM seats WHERE room_id = 1 AND seat_code = 'A101-01');
+
+INSERT INTO seats (room_id, seat_code, status)
+SELECT 1, 'A101-02', 'AVAILABLE'
+WHERE NOT EXISTS (SELECT 1 FROM seats WHERE room_id = 1 AND seat_code = 'A101-02');
+
+INSERT INTO seats (room_id, seat_code, status)
+SELECT 1, 'A101-03', 'RESERVED'
+WHERE NOT EXISTS (SELECT 1 FROM seats WHERE room_id = 1 AND seat_code = 'A101-03');
+
+INSERT INTO seats (room_id, seat_code, status)
+SELECT 2, 'B201-01', 'AVAILABLE'
+WHERE NOT EXISTS (SELECT 1 FROM seats WHERE room_id = 2 AND seat_code = 'B201-01');
+
+INSERT INTO seats (room_id, seat_code, status)
+SELECT 2, 'B201-02', 'IN_USE'
+WHERE NOT EXISTS (SELECT 1 FROM seats WHERE room_id = 2 AND seat_code = 'B201-02');
+
+INSERT INTO seats (room_id, seat_code, status)
+SELECT 2, 'B201-03', 'AVAILABLE'
+WHERE NOT EXISTS (SELECT 1 FROM seats WHERE room_id = 2 AND seat_code = 'B201-03');
