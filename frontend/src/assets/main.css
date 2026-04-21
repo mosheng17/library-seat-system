@@ -216,3 +216,48 @@ body {
   flex-wrap: wrap;
   margin-bottom: 16px;
 }
+
+.records-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.records-header h2 {
+  margin: 0 0 8px;
+}
+
+.records-subtitle {
+  margin: 0;
+  color: #475569;
+}
+
+.records-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  margin: 20px 0;
+}
+
+.summary-card {
+  padding: 20px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.08);
+}
+
+.summary-card strong {
+  display: block;
+  font-size: 32px;
+  margin-bottom: 8px;
+}
+
+.summary-card span {
+  color: #475569;
+}
+
+.records-tabs {
+  margin-top: 20px;
+}

@@ -7,6 +7,7 @@
         <router-link to="/">首页</router-link>
         <router-link to="/login">登录</router-link>
         <router-link to="/reservation">预约</router-link>
+        <router-link to="/records">我的预约</router-link>
         <router-link to="/admin">管理</router-link>
       </nav>
     </header>
