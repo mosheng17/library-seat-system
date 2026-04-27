@@ -5,19 +5,19 @@ spring:
   application:
     name: library-seat-system
   datasource:
-    url: ${MYSQL_URL:jdbc:mysql://127.0.0.1:3306/library_seat_system?useSSL=false&serverTimezone=Asia/Shanghai&characterEncoding=UTF-8}
-    username: ${MYSQL_USER:root}
-    password: ${MYSQL_PASSWORD:}
+    url: ${SPRING_DATASOURCE_URL:${MYSQL_URL:jdbc:mysql://127.0.0.1:3306/library_seat_system?useSSL=false&serverTimezone=Asia/Shanghai&characterEncoding=UTF-8}}
+    username: ${SPRING_DATASOURCE_USERNAME:${MYSQL_USER:root}}
+    password: ${SPRING_DATASOURCE_PASSWORD:${MYSQL_PASSWORD:}}
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
-      ddl-auto: update
-    show-sql: true
+      ddl-auto: ${SPRING_JPA_HIBERNATE_DDL_AUTO:update}
+    show-sql: ${SPRING_JPA_SHOW_SQL:false}
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
-        format_sql: true
+        format_sql: ${SPRING_JPA_PROPERTIES_HIBERNATE_FORMAT_SQL:false}
 
-# CORS 配置：允许的前端域名（生产环境需修改为实际域名）
-cors:
-  allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:5173,http://127.0.0.1:5173}
+app:
+  cors:
+    allowed-origins: ${APP_CORS_ALLOWED_ORIGINS:${CORS_ALLOWED_ORIGINS:http://localhost:5173,http://127.0.0.1:5173}}
