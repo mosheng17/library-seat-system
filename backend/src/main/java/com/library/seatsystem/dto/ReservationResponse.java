@@ -1,6 +1,9 @@
 package com.library.seatsystem.dto;
 
 import java.time.LocalDateTime;
+/**
+ * C 核心业务流程 —— 预约响应对象（含用户、座位与自习室信息）。
+ */
 public class ReservationResponse {
 
     private Long id;

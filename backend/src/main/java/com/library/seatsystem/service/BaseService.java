@@ -26,41 +26,49 @@ public abstract class BaseService<T extends BaseEntity, ID>
         this.repository = repository;
     }
 
+/** 按主键查询。 */
     @Override
     public Optional<T> findById(ID id) {
         return repository.findById(id);
     }
 
+/** 查询全部。 */
     @Override
     public List<T> findAll() {
         return repository.findAll();
     }
 
+/** 分页查询。 */
     @Override
     public Page<T> findPage(int pageNo, int size) {
         return repository.findAll(PageRequest.of(pageNo, size));
     }
 
+/** 新增。 */
     @Override
     public T save(T entity) {
         return repository.save(entity);
     }
 
+/** 更新。 */
     @Override
     public T update(T entity) {
         return repository.save(entity);
     }
 
+/** 按主键删除。 */
     @Override
     public void delete(ID id) {
         repository.deleteById(id);
     }
 
+/** 批量导入，返回成功写入条数。 */
     @Override
     public int importBatch(List<T> batch) {
         return repository.saveAll(batch).size();
     }
 
+/** 批量导出为文本。 */
     @Override
     public String exportBatch(List<T> batch) {
         return batch.stream().map(Object::toString).collect(Collectors.joining("\n"));

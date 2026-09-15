@@ -2,6 +2,9 @@ package com.library.seatsystem.dto;
 
 import jakarta.validation.constraints.NotBlank;
 
+/**
+ * A 系统基建与权限 —— 注册请求参数。
+ */
 public class RegisterRequest {
 
     @NotBlank(message = "用户名不能为空")

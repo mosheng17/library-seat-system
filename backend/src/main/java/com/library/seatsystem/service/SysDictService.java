@@ -22,10 +22,12 @@ public class SysDictService extends BaseService<SysDict, Long> {
         this.sysDictRepository = sysDictRepository;
     }
 
+/** 按类型查询字典项。 */
     public List<SysDict> listByType(String type) {
         return sysDictRepository.findByTypeOrderBySortAsc(type);
     }
 
+/** 新增字典项（同类型下键唯一）。 */
     @Transactional
     public SysDict create(SysDict dict) {
         if (sysDictRepository.existsByTypeAndDictKey(dict.getType(), dict.getDictKey())) {
@@ -34,6 +36,7 @@ public class SysDictService extends BaseService<SysDict, Long> {
         return sysDictRepository.save(dict);
     }
 
+/** 保存字典项。 */
     @Transactional
     public void enable(Long id) {
         SysDict dict = findByIdOrThrow(id);
@@ -41,12 +44,14 @@ public class SysDictService extends BaseService<SysDict, Long> {
         sysDictRepository.save(dict);
     }
 
+/** 批量导入字典项。 */
     @Override
     @Transactional
     public int importBatch(List<SysDict> batch) {
         return super.importBatch(batch);
     }
 
+/** 导出字典项为 CSV。 */
     @Override
     public String exportBatch(List<SysDict> batch) {
         StringBuilder sb = new StringBuilder("type,dictKey,dictValue,sort\n");

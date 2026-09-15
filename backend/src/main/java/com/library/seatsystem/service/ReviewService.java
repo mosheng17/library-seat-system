@@ -21,11 +21,13 @@ public class ReviewService extends BaseService<Reservation, Long> {
         this.reservationRepository = reservationRepository;
     }
 
+/** 审核通过。 */
     @Transactional
     public Reservation approve(Long reservationId) {
         return changeStatus(reservationId, com.library.seatsystem.common.BizConstants.RESERVATION_APPROVED);
     }
 
+/** 审核驳回。 */
     @Transactional
     public Reservation reject(Long reservationId) {
         return changeStatus(reservationId, com.library.seatsystem.common.BizConstants.RESERVATION_REJECTED);

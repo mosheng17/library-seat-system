@@ -18,6 +18,7 @@ public abstract class BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+/** 主键，自增 */
     private Long id;
 
     @Column(name = "created_at", updatable = false)

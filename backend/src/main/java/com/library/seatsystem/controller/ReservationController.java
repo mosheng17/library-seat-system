@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * C 核心业务流程 —— 预约接口。
+ */
 @RestController
 @RequestMapping("/api/reservations")
 public class ReservationController extends BaseController {
@@ -25,17 +28,20 @@ public class ReservationController extends BaseController {
         this.reservationService = reservationService;
     }
 
+/** 提交预约申请。 */
     @PostMapping
     public ApiResponse<ReservationResponse> createReservation(@Valid @RequestBody ReservationRequest request) {
         return ok("预约成功", reservationService.createReservation(request));
     }
 
+/** 取消预约。 */
     @DeleteMapping("/{reservationId}")
     public ApiResponse<Void> cancelReservation(@PathVariable Long reservationId) {
         reservationService.cancelReservation(reservationId);
         return ok("取消预约成功", null);
     }
 
+/** 查询某用户的预约记录。 */
     @GetMapping("/user/{userId}")
     public ApiResponse<List<ReservationResponse>> getReservationsByUser(@PathVariable Long userId) {
         return ok("查询成功", reservationService.getReservationsByUser(userId));

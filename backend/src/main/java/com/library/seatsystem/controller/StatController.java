@@ -23,6 +23,7 @@ public class StatController extends BaseController {
         this.statisticsService = statisticsService;
     }
 
+/** 查询某自习室某天的座位使用率。 */
     @GetMapping("/usage-rate")
     public ApiResponse<Double> usageRate(
             @RequestParam Long roomId,
@@ -31,6 +32,7 @@ public class StatController extends BaseController {
         return ok("统计成功", statisticsService.calcUsageRate(roomId, date));
     }
 
+/** 查询某自习室某天的平均预约时长。 */
     @GetMapping("/avg-duration")
     public ApiResponse<Double> avgDuration(
             @RequestParam Long roomId,
@@ -39,6 +41,7 @@ public class StatController extends BaseController {
         return ok("统计成功", statisticsService.calcAvgDuration(roomId, date));
     }
 
+/** 查询某自习室某天的分时段预约次数。 */
     @GetMapping("/peak-hours")
     public ApiResponse<int[]> peakHours(
             @RequestParam Long roomId,
@@ -47,6 +50,7 @@ public class StatController extends BaseController {
         return ok("统计成功", statisticsService.calcPeakHours(roomId, date));
     }
 
+/** 导出统计明细 CSV 文本。 */
     @GetMapping("/export")
     public ApiResponse<String> export(
             @RequestParam Long roomId,
@@ -55,6 +59,7 @@ public class StatController extends BaseController {
         return ok("导出成功", statisticsService.exportReport(roomId, date));
     }
 
+/** 导出分时段柱状图数据串。 */
     @GetMapping("/chart")
     public ApiResponse<String> chart(
             @RequestParam Long roomId,

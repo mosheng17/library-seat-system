@@ -15,18 +15,22 @@ import java.time.LocalDateTime;
 public class SysLog extends BaseEntity {
 
     @Column(name = "user_id")
+/** 操作用户 ID */
     private Long userId;
 
     @Column(nullable = false, length = 100)
+/** 操作内容 */
     private String operation;
 
     @Column(length = 50)
+/** 所属模块 */
     private String module;
 
     @Column(name = "log_time", nullable = false)
     private LocalDateTime time = LocalDateTime.now();
 
     @Column(length = 50)
+/** 来源 IP */
     private String ip;
 
     public SysLog() {

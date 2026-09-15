@@ -5,6 +5,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+/**
+ * A 系统基建与权限 —— Web 层配置。
+ *
+ * <p>负责跨域（CORS）等与具体业务无关的 Web 配置。
+ */
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 

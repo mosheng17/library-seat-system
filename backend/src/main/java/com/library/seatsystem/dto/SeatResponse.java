@@ -1,5 +1,8 @@
 package com.library.seatsystem.dto;
 
+/**
+ * B 基础数据管理 —— 座位响应对象。
+ */
 public class SeatResponse {
 
     private Long id;

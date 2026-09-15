@@ -6,6 +6,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.query.Param;
 
+/**
+ * C 核心业务流程 —— 预约仓储。
+ *
+ * <p>除常规 CRUD 外，还提供冲突检测（时段重叠）与按自习室+时段查询，
+ * 分别供 D 模块的冲突检测与统计分析使用。
+ */
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
     List<Reservation> findByUserIdOrderByStartTimeDesc(Long userId);
     List<Reservation> findAllByOrderByStartTimeDesc();

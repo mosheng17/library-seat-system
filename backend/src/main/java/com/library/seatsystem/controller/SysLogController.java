@@ -23,6 +23,7 @@ public class SysLogController extends BaseController {
         this.sysLogService = sysLogService;
     }
 
+/** 查询操作日志；可按用户过滤。 */
     @GetMapping
     public ApiResponse<List<SysLog>> list(@RequestParam(required = false) Long userId) {
         if (userId == null) {

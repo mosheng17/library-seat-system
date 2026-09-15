@@ -21,15 +21,18 @@ public class SysLogService extends BaseService<SysLog, Long> {
         this.sysLogRepository = sysLogRepository;
     }
 
+/** 记录一条操作日志。 */
     @Transactional
     public SysLog record(Long userId, String operation, String module) {
         return sysLogRepository.save(new SysLog(userId, operation, module));
     }
 
+/** 查询全部日志（按时间倒序）。 */
     public List<SysLog> listAll() {
         return sysLogRepository.findAllByOrderByTimeDesc();
     }
 
+/** 查询某用户的日志。 */
     public List<SysLog> listByUser(Long userId) {
         return sysLogRepository.findByUserIdOrderByTimeDesc(userId);
     }

@@ -5,6 +5,11 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+/**
+ * A 系统基建与权限 —— 全局异常处理器。
+ *
+ * <p>把业务异常与未预期异常统一转换为 {@link com.library.seatsystem.common.ApiResponse}。
+ */
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 

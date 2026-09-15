@@ -2,6 +2,9 @@ package com.library.seatsystem.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+/**
+ * B 基础数据管理 —— 新增座位的请求参数。
+ */
 public class CreateSeatRequest {
 
     @NotNull(message = "自习室不能为空")

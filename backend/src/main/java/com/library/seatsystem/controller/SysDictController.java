@@ -27,6 +27,7 @@ public class SysDictController extends BaseController {
         this.sysDictService = sysDictService;
     }
 
+/** 按类型查询字典项；不传类型时返回全部。 */
     @GetMapping
     public ApiResponse<List<SysDict>> list(@RequestParam(required = false) String type) {
         if (type == null || type.isBlank()) {
@@ -35,11 +36,13 @@ public class SysDictController extends BaseController {
         return ok("查询成功", sysDictService.listByType(type));
     }
 
+/** 新增字典项。 */
     @PostMapping
     public ApiResponse<SysDict> create(@RequestBody SysDict dict) {
         return ok("新增字典成功", sysDictService.create(dict));
     }
 
+/** 删除字典项。 */
     @DeleteMapping("/{id}")
     public ApiResponse<Void> delete(@PathVariable Long id) {
         sysDictService.delete(id);

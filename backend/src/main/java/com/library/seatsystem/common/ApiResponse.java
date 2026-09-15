@@ -1,5 +1,10 @@
 package com.library.seatsystem.common;
 
+/**
+ * A 系统基建与权限 —— 统一响应结构。
+ *
+ * <p>所有接口都返回 {@code code / message / data} 三段式结构，前端按 code 判断成败。
+ */
 public class ApiResponse<T> {
 
     private Integer code;

@@ -41,6 +41,7 @@ public class PriorityService extends BaseService<Reservation, Long> implements P
         super(reservationRepository);
     }
 
+/** 按优先级降序排序。 */
     @Override
     public List<Reservation> sort(List<Reservation> reservations) {
         if (reservations == null || reservations.isEmpty()) {
@@ -51,6 +52,7 @@ public class PriorityService extends BaseService<Reservation, Long> implements P
                 .toList();
     }
 
+/** 计算优先级得分（角色权重 + 时长权重）。 */
     @Override
     public int calcScore(Reservation reservation) {
         if (reservation == null) {

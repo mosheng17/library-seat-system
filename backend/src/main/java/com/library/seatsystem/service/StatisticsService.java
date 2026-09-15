@@ -29,14 +29,17 @@ public class StatisticsService extends BaseService<Reservation, Long> {
         this.reportExporter = reportExporter;
     }
 
+/** 计算座位使用率。 */
     public double calcUsageRate(Long roomId, LocalDate date) {
         return usageCalculator.calcUsageRate(roomId, date);
     }
 
+/** 计算平均预约时长。 */
     public double calcAvgDuration(Long roomId, LocalDate date) {
         return usageCalculator.calcAvgDuration(roomId, date);
     }
 
+/** 统计分时段预约次数。 */
     public int[] calcPeakHours(Long roomId, LocalDate date) {
         return usageCalculator.calcPeakHours(roomId, date);
     }
@@ -51,11 +54,13 @@ public class StatisticsService extends BaseService<Reservation, Long> {
                 .toList();
     }
 
+/** 导出统计明细。 */
     public String exportReport(Long roomId, LocalDate date) {
         List<Reservation> rows = usageCalculator.reservationsOfDay(roomId, date);
         return reportExporter.exportReport("usage-" + roomId + "-" + date, rows);
     }
 
+/** 导出分时段图表数据。 */
     public String exportChart(Long roomId, LocalDate date) {
         return reportExporter.exportChart(usageCalculator.calcPeakHours(roomId, date));
     }

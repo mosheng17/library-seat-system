@@ -18,6 +18,7 @@ public class AuthService extends BaseService<User, Long> {
         this.userRepository = userRepository;
     }
 
+/** 登录：校验账号密码。 */
     public LoginResponse login(LoginRequest request) {
         User user = userRepository.findByUsername(request.getUsername())
                 .orElseThrow(() -> new BusinessException("用户不存在"));
@@ -34,6 +35,7 @@ public class AuthService extends BaseService<User, Long> {
         );
     }
 
+/** 注册：默认学生角色。 */
     public LoginResponse register(RegisterRequest request) {
         if (userRepository.existsByUsername(request.getUsername())) {
             throw new BusinessException("用户名已存在");

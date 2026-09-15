@@ -7,18 +7,26 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
+/**
+ * B 基础数据管理 —— 座位实体（seats 表）。
+ *
+ * <p>座位归属某个自习室，状态取值见 {@link com.library.seatsystem.common.BizConstants}。
+ */
 @Entity
 @Table(name = "seats")
 public class Seat extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "room_id", nullable = false)
+/** 所属自习室 */
     private StudyRoom studyRoom;
 
     @Column(nullable = false, length = 20)
+/** 座位编号（同室内唯一） */
     private String seatCode;
 
     @Column(nullable = false, length = 20)
+/** 座位状态，取值见 BizConstants */
     private String status;
 
     public StudyRoom getStudyRoom() {

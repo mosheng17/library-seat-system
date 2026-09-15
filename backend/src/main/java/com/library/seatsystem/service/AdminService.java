@@ -35,12 +35,14 @@ public class AdminService extends BaseService<StudyRoom, Long> {
         this.reservationRepository = reservationRepository;
     }
 
+/** 查询全部自习室。 */
     public List<StudyRoomResponse> getAllRooms() {
         return studyRoomRepository.findAll().stream()
                 .map(ResponseMapper::toStudyRoom)
                 .toList();
     }
 
+/** 新增自习室（名称唯一）。 */
     @Transactional
     public StudyRoomResponse createRoom(CreateStudyRoomRequest request) {
         if (studyRoomRepository.existsByRoomName(request.getRoomName())) {
@@ -55,12 +57,14 @@ public class AdminService extends BaseService<StudyRoom, Long> {
         return ResponseMapper.toStudyRoom(studyRoomRepository.save(room));
     }
 
+/** 查询某自习室的座位。 */
     public List<SeatResponse> getSeatsByRoom(Long roomId) {
         return seatRepository.findByStudyRoomId(roomId).stream()
                 .map(ResponseMapper::toSeat)
                 .toList();
     }
 
+/** 新增座位（同室内座号唯一）。 */
     @Transactional
     public SeatResponse createSeat(CreateSeatRequest request) {
         StudyRoom room = studyRoomRepository.findById(request.getRoomId())
@@ -78,6 +82,7 @@ public class AdminService extends BaseService<StudyRoom, Long> {
         return ResponseMapper.toSeat(seatRepository.save(seat));
     }
 
+/** 查询全部预约。 */
     public List<ReservationResponse> getAllReservations() {
         return reservationRepository.findAllByOrderByStartTimeDesc().stream()
                 .map(ResponseMapper::toReservation)

@@ -2,6 +2,9 @@ package com.library.seatsystem.dto;
 
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+/**
+ * C 核心业务流程 —— 创建预约的请求参数。
+ */
 public class ReservationRequest {
 
     @NotNull

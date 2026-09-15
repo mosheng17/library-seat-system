@@ -14,15 +14,19 @@ import jakarta.persistence.Table;
 public class SysDict extends BaseEntity {
 
     @Column(nullable = false, length = 50)
+/** 字典类型，如 SEAT_STATUS */
     private String type;
 
     @Column(name = "dict_key", nullable = false, length = 50)
+/** 字典键 */
     private String dictKey;
 
     @Column(name = "dict_value", nullable = false, length = 100)
+/** 字典值（展示名） */
     private String dictValue;
 
     @Column(name = "sort_no")
+/** 排序号 */
     private Integer sort;
 
     public String getType() {

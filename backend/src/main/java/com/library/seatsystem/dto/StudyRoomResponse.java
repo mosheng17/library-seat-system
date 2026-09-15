@@ -1,5 +1,8 @@
 package com.library.seatsystem.dto;
 
+/**
+ * B 基础数据管理 —— 自习室响应对象。
+ */
 public class StudyRoomResponse {
 
     private Long id;

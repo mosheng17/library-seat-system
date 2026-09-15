@@ -1,5 +1,8 @@
 package com.library.seatsystem.dto;
 
+/**
+ * A 系统基建与权限 —— 登录/注册成功后的返回信息。
+ */
 public class LoginResponse {
 
     private Long userId;
