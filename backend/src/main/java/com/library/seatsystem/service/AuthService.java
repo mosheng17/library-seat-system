@@ -43,7 +43,7 @@ public class AuthService extends BaseService<User, Long> {
         user.setUsername(request.getUsername());
         user.setPassword(request.getPassword());
         user.setRealName(request.getRealName());
-        user.setRole("STUDENT");
+        user.setRole(com.library.seatsystem.common.BizConstants.ROLE_STUDENT);
 
         User savedUser = userRepository.save(user);
 

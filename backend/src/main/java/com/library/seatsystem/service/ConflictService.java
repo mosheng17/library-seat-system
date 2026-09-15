@@ -53,10 +53,13 @@ public class ConflictService extends BaseService<Reservation, Long> implements C
             return false;
         }
         String status = seat.getStatus();
-        if ("DISABLED".equalsIgnoreCase(status) || "MAINTENANCE".equalsIgnoreCase(status)) {
+        if (com.library.seatsystem.common.BizConstants.SEAT_DISABLED.equalsIgnoreCase(status)
+                || com.library.seatsystem.common.BizConstants.SEAT_MAINTENANCE.equalsIgnoreCase(status)) {
             return false;
         }
-        return "AVAILABLE".equalsIgnoreCase(status) || "RESERVED".equalsIgnoreCase(status) || "IN_USE".equalsIgnoreCase(status);
+        return com.library.seatsystem.common.BizConstants.SEAT_AVAILABLE.equalsIgnoreCase(status)
+                || com.library.seatsystem.common.BizConstants.SEAT_RESERVED.equalsIgnoreCase(status)
+                || com.library.seatsystem.common.BizConstants.SEAT_IN_USE.equalsIgnoreCase(status);
     }
 
     /** 冲突原因描述，供前端提示；无冲突返回 null。 */

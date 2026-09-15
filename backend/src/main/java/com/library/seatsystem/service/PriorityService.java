@@ -52,7 +52,8 @@ public class PriorityService extends BaseService<Reservation, Long> implements P
             return ROLE_WEIGHT_STUDENT;
         }
         String role = reservation.getUser().getRole();
-        if (role != null && ("TEACHER".equalsIgnoreCase(role) || "ADMIN".equalsIgnoreCase(role))) {
+        if (role != null && (com.library.seatsystem.common.BizConstants.ROLE_TEACHER.equalsIgnoreCase(role)
+                || com.library.seatsystem.common.BizConstants.ROLE_ADMIN.equalsIgnoreCase(role))) {
             return ROLE_WEIGHT_TEACHER;
         }
         return ROLE_WEIGHT_STUDENT;

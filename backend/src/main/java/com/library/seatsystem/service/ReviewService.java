@@ -23,19 +23,22 @@ public class ReviewService extends BaseService<Reservation, Long> {
 
     @Transactional
     public Reservation approve(Long reservationId) {
-        return changeStatus(reservationId, "APPROVED");
+        return changeStatus(reservationId, com.library.seatsystem.common.BizConstants.RESERVATION_APPROVED);
     }
 
     @Transactional
     public Reservation reject(Long reservationId) {
-        return changeStatus(reservationId, "REJECTED");
+        return changeStatus(reservationId, com.library.seatsystem.common.BizConstants.RESERVATION_REJECTED);
     }
 
     private Reservation changeStatus(Long reservationId, String target) {
         Reservation reservation = reservationRepository.findById(reservationId)
                 .orElseThrow(() -> new BusinessException("预约记录不存在"));
-        if (!"PENDING".equalsIgnoreCase(reservation.getStatus())
-                && !"RESERVED".equalsIgnoreCase(reservation.getStatus())) {
+        boolean reviewable = com.library.seatsystem.common.BizConstants.RESERVATION_PENDING
+                .equalsIgnoreCase(reservation.getStatus())
+                || com.library.seatsystem.common.BizConstants.RESERVATION_RESERVED
+                .equalsIgnoreCase(reservation.getStatus());
+        if (!reviewable) {
             throw new BusinessException("当前状态不可审核：" + reservation.getStatus());
         }
         reservation.setStatus(target);

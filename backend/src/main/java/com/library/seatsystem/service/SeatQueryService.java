@@ -29,7 +29,7 @@ public class SeatQueryService extends BaseService<Seat, Long> {
     public List<Seat> listFree(Long roomId, LocalDateTime startTime, LocalDateTime endTime) {
         List<Seat> result = new ArrayList<>();
         for (Seat seat : seatRepository.findByStudyRoomId(roomId)) {
-            if (!"DISABLED".equalsIgnoreCase(seat.getStatus())
+            if (!com.library.seatsystem.common.BizConstants.SEAT_DISABLED.equalsIgnoreCase(seat.getStatus())
                     && !reservationRepository.existsConflictingReservation(seat.getId(), startTime, endTime)) {
                 result.add(seat);
             }

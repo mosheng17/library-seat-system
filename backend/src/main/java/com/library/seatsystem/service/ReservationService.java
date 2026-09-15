@@ -55,10 +55,10 @@ public class ReservationService extends BaseService<Reservation, Long> {
         reservation.setSeat(seat);
         reservation.setStartTime(request.getStartTime());
         reservation.setEndTime(request.getEndTime());
-        reservation.setStatus("RESERVED");
+        reservation.setStatus(com.library.seatsystem.common.BizConstants.RESERVATION_RESERVED);
 
         Reservation savedReservation = reservationRepository.save(reservation);
-        seat.setStatus("RESERVED");
+        seat.setStatus(com.library.seatsystem.common.BizConstants.SEAT_RESERVED);
         seatRepository.save(seat);
 
         return toResponse(savedReservation);
@@ -69,15 +69,15 @@ public class ReservationService extends BaseService<Reservation, Long> {
         Reservation reservation = reservationRepository.findById(reservationId)
                 .orElseThrow(() -> new BusinessException("预约记录不存在"));
 
-        if (!"RESERVED".equals(reservation.getStatus())) {
+        if (!com.library.seatsystem.common.BizConstants.RESERVATION_RESERVED.equals(reservation.getStatus())) {
             throw new BusinessException("该预约已取消或不可操作");
         }
 
-        reservation.setStatus("CANCELLED");
+        reservation.setStatus(com.library.seatsystem.common.BizConstants.RESERVATION_CANCELLED);
         reservationRepository.save(reservation);
 
         Seat seat = reservation.getSeat();
-        seat.setStatus("AVAILABLE");
+        seat.setStatus(com.library.seatsystem.common.BizConstants.SEAT_AVAILABLE);
         seatRepository.save(seat);
 
         return "取消预约成功";
