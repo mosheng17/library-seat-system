@@ -1,5 +1,6 @@
 package com.library.seatsystem.service;
 
+import com.library.seatsystem.common.ResponseMapper;
 import com.library.seatsystem.dto.SeatResponse;
 import com.library.seatsystem.entity.Seat;
 import com.library.seatsystem.repository.SeatRepository;
@@ -16,15 +17,10 @@ public class SeatService extends BaseService<Seat, Long> {
         this.seatRepository = seatRepository;
     }
 
+    /** 按自习室查询座位列表。 */
     public List<SeatResponse> getSeatsByRoom(Long roomId) {
         return seatRepository.findByStudyRoomId(roomId).stream()
-                .map(seat -> new SeatResponse(
-                        seat.getId(),
-                        seat.getStudyRoom().getId(),
-                        seat.getStudyRoom().getRoomName(),
-                        seat.getSeatCode(),
-                        seat.getStatus()
-                ))
+                .map(ResponseMapper::toSeat)
                 .toList();
     }
 }

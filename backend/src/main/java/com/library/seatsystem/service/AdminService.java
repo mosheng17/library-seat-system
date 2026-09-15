@@ -1,5 +1,6 @@
 package com.library.seatsystem.service;
 
+import com.library.seatsystem.common.ResponseMapper;
 import com.library.seatsystem.dto.CreateSeatRequest;
 import com.library.seatsystem.dto.CreateStudyRoomRequest;
 import com.library.seatsystem.dto.ReservationResponse;
@@ -36,7 +37,7 @@ public class AdminService extends BaseService<StudyRoom, Long> {
 
     public List<StudyRoomResponse> getAllRooms() {
         return studyRoomRepository.findAll().stream()
-                .map(this::toStudyRoomResponse)
+                .map(ResponseMapper::toStudyRoom)
                 .toList();
     }
 
@@ -51,12 +52,12 @@ public class AdminService extends BaseService<StudyRoom, Long> {
         room.setFloor(request.getFloor());
         room.setCapacity(request.getCapacity());
 
-        return toStudyRoomResponse(studyRoomRepository.save(room));
+        return ResponseMapper.toStudyRoom(studyRoomRepository.save(room));
     }
 
     public List<SeatResponse> getSeatsByRoom(Long roomId) {
         return seatRepository.findByStudyRoomId(roomId).stream()
-                .map(this::toSeatResponse)
+                .map(ResponseMapper::toSeat)
                 .toList();
     }
 
@@ -74,46 +75,13 @@ public class AdminService extends BaseService<StudyRoom, Long> {
         seat.setSeatCode(request.getSeatCode());
         seat.setStatus(request.getStatus());
 
-        return toSeatResponse(seatRepository.save(seat));
+        return ResponseMapper.toSeat(seatRepository.save(seat));
     }
 
     public List<ReservationResponse> getAllReservations() {
         return reservationRepository.findAllByOrderByStartTimeDesc().stream()
-                .map(this::toReservationResponse)
+                .map(ResponseMapper::toReservation)
                 .toList();
-    }
-
-    private StudyRoomResponse toStudyRoomResponse(StudyRoom room) {
-        return new StudyRoomResponse(
-                room.getId(),
-                room.getRoomName(),
-                room.getFloor(),
-                room.getCapacity()
-        );
-    }
-
-    private SeatResponse toSeatResponse(Seat seat) {
-        return new SeatResponse(
-                seat.getId(),
-                seat.getStudyRoom().getId(),
-                seat.getStudyRoom().getRoomName(),
-                seat.getSeatCode(),
-                seat.getStatus()
-        );
-    }
-
-    private ReservationResponse toReservationResponse(Reservation reservation) {
-        return new ReservationResponse(
-                reservation.getId(),
-                reservation.getUser().getId(),
-                reservation.getUser().getRealName(),
-                reservation.getSeat().getId(),
-                reservation.getSeat().getSeatCode(),
-                reservation.getSeat().getStudyRoom().getRoomName(),
-                reservation.getStartTime(),
-                reservation.getEndTime(),
-                reservation.getStatus()
-        );
     }
 }
 

@@ -61,7 +61,7 @@ public class ReservationService extends BaseService<Reservation, Long> {
         seat.setStatus(com.library.seatsystem.common.BizConstants.SEAT_RESERVED);
         seatRepository.save(seat);
 
-        return toResponse(savedReservation);
+        return com.library.seatsystem.common.ResponseMapper.toReservation(savedReservation);
     }
 
     @Transactional
@@ -89,7 +89,7 @@ public class ReservationService extends BaseService<Reservation, Long> {
         }
 
         return reservationRepository.findByUserIdOrderByStartTimeDesc(userId).stream()
-                .map(this::toResponse)
+                .map(com.library.seatsystem.common.ResponseMapper::toReservation)
                 .toList();
     }
 
@@ -101,19 +101,5 @@ public class ReservationService extends BaseService<Reservation, Long> {
         if (startTime.isBefore(LocalDateTime.now())) {
             throw new BusinessException("开始时间不能早于当前时间");
         }
-    }
-
-    private ReservationResponse toResponse(Reservation reservation) {
-        return new ReservationResponse(
-                reservation.getId(),
-                reservation.getUser().getId(),
-                reservation.getUser().getRealName(),
-                reservation.getSeat().getId(),
-                reservation.getSeat().getSeatCode(),
-                reservation.getSeat().getStudyRoom().getRoomName(),
-                reservation.getStartTime(),
-                reservation.getEndTime(),
-                reservation.getStatus()
-        );
     }
 }
