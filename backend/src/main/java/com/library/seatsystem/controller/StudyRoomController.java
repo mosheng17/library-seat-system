@@ -1,6 +1,7 @@
 package com.library.seatsystem.controller;
 
 import com.library.seatsystem.common.ApiResponse;
+import com.library.seatsystem.common.BaseController;
 import com.library.seatsystem.dto.StudyRoomResponse;
 import com.library.seatsystem.service.StudyRoomService;
 import java.util.List;
@@ -10,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/rooms")
-public class StudyRoomController {
+public class StudyRoomController extends BaseController {
 
     private final StudyRoomService studyRoomService;
 
@@ -20,7 +21,7 @@ public class StudyRoomController {
 
     @GetMapping
     public ApiResponse<List<StudyRoomResponse>> getAllRooms() {
-        return ApiResponse.success("查询成功", studyRoomService.getAllRooms());
+        return ok("查询成功", studyRoomService.getAllRooms());
     }
 }
 

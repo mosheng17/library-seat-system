@@ -1,6 +1,7 @@
 package com.library.seatsystem.controller;
 
 import com.library.seatsystem.common.ApiResponse;
+import com.library.seatsystem.common.BaseController;
 import com.library.seatsystem.dto.ReservationRequest;
 import com.library.seatsystem.dto.ReservationResponse;
 import com.library.seatsystem.service.ReservationService;
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/reservations")
-public class ReservationController {
+public class ReservationController extends BaseController {
 
     private final ReservationService reservationService;
 
@@ -26,17 +27,17 @@ public class ReservationController {
 
     @PostMapping
     public ApiResponse<ReservationResponse> createReservation(@Valid @RequestBody ReservationRequest request) {
-        return ApiResponse.success("预约成功", reservationService.createReservation(request));
+        return ok("预约成功", reservationService.createReservation(request));
     }
 
     @DeleteMapping("/{reservationId}")
     public ApiResponse<Void> cancelReservation(@PathVariable Long reservationId) {
         reservationService.cancelReservation(reservationId);
-        return ApiResponse.success("取消预约成功", null);
+        return ok("取消预约成功", null);
     }
 
     @GetMapping("/user/{userId}")
     public ApiResponse<List<ReservationResponse>> getReservationsByUser(@PathVariable Long userId) {
-        return ApiResponse.success("查询成功", reservationService.getReservationsByUser(userId));
+        return ok("查询成功", reservationService.getReservationsByUser(userId));
     }
 }

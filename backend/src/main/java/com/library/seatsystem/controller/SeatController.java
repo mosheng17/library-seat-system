@@ -1,6 +1,7 @@
 package com.library.seatsystem.controller;
 
 import com.library.seatsystem.common.ApiResponse;
+import com.library.seatsystem.common.BaseController;
 import com.library.seatsystem.dto.SeatResponse;
 import com.library.seatsystem.service.SeatService;
 import java.util.List;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/seats")
-public class SeatController {
+public class SeatController extends BaseController {
 
     private final SeatService seatService;
 
@@ -21,6 +22,6 @@ public class SeatController {
 
     @GetMapping("/room/{roomId}")
     public ApiResponse<List<SeatResponse>> getSeatsByRoom(@PathVariable Long roomId) {
-        return ApiResponse.success("查询成功", seatService.getSeatsByRoom(roomId));
+        return ok("查询成功", seatService.getSeatsByRoom(roomId));
     }
 }

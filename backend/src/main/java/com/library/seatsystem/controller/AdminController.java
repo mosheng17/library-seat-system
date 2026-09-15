@@ -1,6 +1,7 @@
 package com.library.seatsystem.controller;
 
 import com.library.seatsystem.common.ApiResponse;
+import com.library.seatsystem.common.BaseController;
 import com.library.seatsystem.dto.CreateSeatRequest;
 import com.library.seatsystem.dto.CreateStudyRoomRequest;
 import com.library.seatsystem.dto.ReservationResponse;
@@ -18,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/admin")
-public class AdminController {
+public class AdminController extends BaseController {
 
     private final AdminService adminService;
 
@@ -28,27 +29,27 @@ public class AdminController {
 
     @GetMapping("/rooms")
     public ApiResponse<List<StudyRoomResponse>> getAllRooms() {
-        return ApiResponse.success("查询成功", adminService.getAllRooms());
+        return ok("查询成功", adminService.getAllRooms());
     }
 
     @PostMapping("/rooms")
     public ApiResponse<StudyRoomResponse> createRoom(@Valid @RequestBody CreateStudyRoomRequest request) {
-        return ApiResponse.success("新增自习室成功", adminService.createRoom(request));
+        return ok("新增自习室成功", adminService.createRoom(request));
     }
 
     @GetMapping("/rooms/{roomId}/seats")
     public ApiResponse<List<SeatResponse>> getSeatsByRoom(@PathVariable Long roomId) {
-        return ApiResponse.success("查询成功", adminService.getSeatsByRoom(roomId));
+        return ok("查询成功", adminService.getSeatsByRoom(roomId));
     }
 
     @PostMapping("/seats")
     public ApiResponse<SeatResponse> createSeat(@Valid @RequestBody CreateSeatRequest request) {
-        return ApiResponse.success("新增座位成功", adminService.createSeat(request));
+        return ok("新增座位成功", adminService.createSeat(request));
     }
 
     @GetMapping("/reservations")
     public ApiResponse<List<ReservationResponse>> getAllReservations() {
-        return ApiResponse.success("查询成功", adminService.getAllReservations());
+        return ok("查询成功", adminService.getAllReservations());
     }
 }
 

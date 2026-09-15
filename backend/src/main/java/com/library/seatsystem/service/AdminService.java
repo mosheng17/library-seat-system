@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class AdminService {
+public class AdminService extends BaseService<StudyRoom, Long> {
 
     private final StudyRoomRepository studyRoomRepository;
     private final SeatRepository seatRepository;
@@ -28,6 +28,7 @@ public class AdminService {
             SeatRepository seatRepository,
             ReservationRepository reservationRepository
     ) {
+        super(studyRoomRepository);
         this.studyRoomRepository = studyRoomRepository;
         this.seatRepository = seatRepository;
         this.reservationRepository = reservationRepository;

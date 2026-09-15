@@ -23,4 +23,18 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
             @Param("startTime") java.time.LocalDateTime startTime,
             @Param("endTime") java.time.LocalDateTime endTime
     );
+
+    /** D 统计分析用：取某自习室在给定时段内的预约。 */
+    @Query("""
+            select r
+            from Reservation r
+            where r.seat.studyRoom.id = :roomId
+              and r.startTime >= :from
+              and r.startTime < :to
+            """)
+    List<Reservation> findByRoomAndTimeRange(
+            @Param("roomId") Long roomId,
+            @Param("from") java.time.LocalDateTime from,
+            @Param("to") java.time.LocalDateTime to
+    );
 }

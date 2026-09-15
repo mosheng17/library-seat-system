@@ -1,6 +1,7 @@
 package com.library.seatsystem.controller;
 
 import com.library.seatsystem.common.ApiResponse;
+import com.library.seatsystem.common.BaseController;
 import com.library.seatsystem.dto.LoginRequest;
 import com.library.seatsystem.dto.LoginResponse;
 import com.library.seatsystem.dto.RegisterRequest;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/auth")
-public class AuthController {
+public class AuthController extends BaseController {
 
     private final AuthService authService;
 
@@ -24,12 +25,12 @@ public class AuthController {
     @PostMapping("/login")
     public ApiResponse<LoginResponse> login(@Valid @RequestBody LoginRequest request) {
         LoginResponse response = authService.login(request);
-        return ApiResponse.success("登录成功", response);
+        return ok("登录成功", response);
     }
 
     @PostMapping("/register")
     public ApiResponse<LoginResponse> register(@Valid @RequestBody RegisterRequest request) {
         LoginResponse response = authService.register(request);
-        return ApiResponse.success("注册成功", response);
+        return ok("注册成功", response);
     }
 }

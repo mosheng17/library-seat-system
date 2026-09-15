@@ -9,11 +9,12 @@ import com.library.seatsystem.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AuthService {
+public class AuthService extends BaseService<User, Long> {
 
     private final UserRepository userRepository;
 
     public AuthService(UserRepository userRepository) {
+        super(userRepository);
         this.userRepository = userRepository;
     }
 
