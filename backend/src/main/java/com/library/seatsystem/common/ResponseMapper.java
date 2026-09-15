@@ -6,6 +6,7 @@ import com.library.seatsystem.dto.StudyRoomResponse;
 import com.library.seatsystem.entity.Reservation;
 import com.library.seatsystem.entity.Seat;
 import com.library.seatsystem.entity.StudyRoom;
+import com.library.seatsystem.entity.User;
 
 /**
  * A/B 公共 —— 实体到响应 DTO 的统一映射器。
@@ -15,6 +16,11 @@ import com.library.seatsystem.entity.StudyRoom;
  * 这里集中为静态方法，实体字段变更时只需改一处。
  *
  * <p>解决的是"重复代码"与"散弹式修改"两类坏味道。
+ *
+ * <p>注意：映射时对可空关联（user / seat / studyRoom）做了空值保护。
+ * 早期版本把 6 个三元判空直接写进 {@code toReservation}，导致该方法圈复杂度
+ * 升到 8（超过 ≤7 的阈值）；现在把判空下沉到 {@code userId}/{@code userName}
+ * 等小方法，主方法只保留一次非空判断。
  */
 public final class ResponseMapper {
 
@@ -42,8 +48,8 @@ public final class ResponseMapper {
         StudyRoom room = seat.getStudyRoom();
         return new SeatResponse(
                 seat.getId(),
-                room == null ? null : room.getId(),
-                room == null ? null : room.getRoomName(),
+                roomId(room),
+                roomName(room),
                 seat.getSeatCode(),
                 seat.getStatus()
         );
@@ -54,18 +60,42 @@ public final class ResponseMapper {
         if (reservation == null) {
             return null;
         }
+        User user = reservation.getUser();
         Seat seat = reservation.getSeat();
-        StudyRoom room = seat == null ? null : seat.getStudyRoom();
         return new ReservationResponse(
                 reservation.getId(),
-                reservation.getUser() == null ? null : reservation.getUser().getId(),
-                reservation.getUser() == null ? null : reservation.getUser().getRealName(),
-                seat == null ? null : seat.getId(),
-                seat == null ? null : seat.getSeatCode(),
-                room == null ? null : room.getRoomName(),
+                userId(user),
+                userName(user),
+                seatId(seat),
+                seatCode(seat),
+                roomName(seat == null ? null : seat.getStudyRoom()),
                 reservation.getStartTime(),
                 reservation.getEndTime(),
                 reservation.getStatus()
         );
+    }
+
+    private static Long userId(User user) {
+        return user == null ? null : user.getId();
+    }
+
+    private static String userName(User user) {
+        return user == null ? null : user.getRealName();
+    }
+
+    private static Long seatId(Seat seat) {
+        return seat == null ? null : seat.getId();
+    }
+
+    private static String seatCode(Seat seat) {
+        return seat == null ? null : seat.getSeatCode();
+    }
+
+    private static Long roomId(StudyRoom room) {
+        return room == null ? null : room.getId();
+    }
+
+    private static String roomName(StudyRoom room) {
+        return room == null ? null : room.getRoomName();
     }
 }
