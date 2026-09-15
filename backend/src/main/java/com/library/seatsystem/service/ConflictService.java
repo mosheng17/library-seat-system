@@ -59,13 +59,26 @@ public class ConflictService extends BaseService<Reservation, Long> implements C
     /**
      * 返回冲突原因，无冲突时返回 {@code null}。
      *
+     * <p>把"参数校验"与"座位/重叠判定"拆到两个私有方法，本方法只做一次分派，
+     * 圈复杂度由改进前的 5 降到 2。
+     *
      * @return "时段不合法" / "座位不存在" / "座位已停用或维修中" / "该时段已被预约"，或 null
      */
     public String describeConflict(Long seatId, LocalDateTime startTime, LocalDateTime endTime) {
-        if (seatId == null || !checkTimeOverlap(startTime, endTime)) {
+        if (!isValidRequest(seatId, startTime, endTime)) {
             return "时段不合法";
         }
         Seat seat = seatRepository.findById(seatId).orElse(null);
+        return checkSeatAndOverlap(seat, seatId, startTime, endTime);
+    }
+
+    /** 请求参数是否合法：座位非空且时段有效。 */
+    private boolean isValidRequest(Long seatId, LocalDateTime startTime, LocalDateTime endTime) {
+        return seatId != null && checkTimeOverlap(startTime, endTime);
+    }
+
+    /** 依次判定座位存在性、可用性与时段重叠，返回原因或 null。 */
+    private String checkSeatAndOverlap(Seat seat, Long seatId, LocalDateTime startTime, LocalDateTime endTime) {
         if (seat == null) {
             return "座位不存在";
         }
