@@ -14,9 +14,14 @@
 
 **获取方式**（任选一种）：
 
-- **A. GitHub 直接下载**（推荐，最省事）
-  打开 <https://github.com/mosheng17/library-seat-system/tree/main/metrics-src>
-  分别点开两个 zip → 右上角 **Download raw file** 下载。
+- **A. 直接点链接下载**（推荐，最省事，浏览器打开即下载）
+
+  - 改进前（56 个文件）：
+    <https://raw.githubusercontent.com/mosheng17/library-seat-system/main/metrics-src/seat-system-src-BEFORE-1bbf185.zip>
+  - 改进后（58 个文件）：
+    <https://raw.githubusercontent.com/mosheng17/library-seat-system/main/metrics-src/seat-system-src-AFTER-ad9a18f.zip>
+  - 本指南的在线版：
+    <https://raw.githubusercontent.com/mosheng17/library-seat-system/main/metrics-src/SourceMonitor-guide-zh.md>
 
 - **B. U 盘**：把 U 盘插到 Mac 上，告诉我一声，我把两个包拷进去。
 
