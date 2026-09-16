@@ -50,6 +50,21 @@ public class StatController extends BaseController {
         return ok("统计成功", statisticsService.calcPeakHours(roomId, date));
     }
 
+    /**
+     * 查询某自习室从指定日期起连续 7 天的每日使用率（按周聚合）。
+     *
+     * @param roomId    自习室 ID
+     * @param weekStart 周的起始日期，格式 yyyy-MM-dd
+     * @return 长度为 7 的使用率数组，下标 0 对应 weekStart 当天
+     */
+    @GetMapping("/weekly-usage")
+    public ApiResponse<double[]> weeklyUsage(
+            @RequestParam Long roomId,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate weekStart
+    ) {
+        return ok("统计成功", statisticsService.calcWeeklyUsageRate(roomId, weekStart));
+    }
+
 /** 导出统计明细 CSV 文本。 */
     @GetMapping("/export")
     public ApiResponse<String> export(

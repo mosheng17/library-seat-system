@@ -17,6 +17,9 @@ import org.springframework.stereotype.Service;
  * 全塞在一个方法里，圈复杂度 6 且除零保护与主逻辑交织。
  * 这里按"取数 / 算分母 / 算分子 / 归一化"四步拆成小方法，
  * 每个方法只做一件事，便于单测覆盖边界（空座位表、容量为 0、用量超 100%）。
+ *
+ * <p>改进点（统计粒度）：新增 {@link #calcWeeklyUsageRate(Long, LocalDate)}，
+ * 把"单日使用率"扩展为"按周聚合"，支撑前端的一周使用情况折线图。
  */
 @Service
 public class UsageCalculator {
@@ -26,6 +29,9 @@ public class UsageCalculator {
 
     /** 使用率上限：即使超订也按 100% 计。 */
     private static final double MAX_USAGE_RATE = 1.0;
+
+    /** 一周的天数，用于按周聚合使用率。 */
+    private static final int DAYS_PER_WEEK = 7;
 
     private final SeatRepository seatRepository;
     private final ReservationRepository reservationRepository;
@@ -68,6 +74,31 @@ public class UsageCalculator {
             }
         }
         return buckets;
+    }
+
+    /**
+     * 按周聚合使用率：返回从 {@code weekStart} 起连续 7 天的每日使用率。
+     *
+     * <p>改进前统计模块只支持"单日"粒度，管理员想看一周的使用情况
+     * 必须手工调用 7 次接口。这里把逐日结果收进一次调用返回，
+     * 内部复用已有的 {@link #calcUsageRate}，不新增查询逻辑、不复制计算分支。
+     *
+     * <p>约定下标 0 对应 {@code weekStart} 当天，下标 6 对应其后第 6 天，
+     * 调用方无需再关心日期边界。
+     *
+     * @param roomId    自习室 ID，为空时返回全 0
+     * @param weekStart 周的起始日期（含），为空时返回全 0
+     * @return 长度为 7 的使用率数组，每个元素落在 [0,1]
+     */
+    public double[] calcWeeklyUsageRate(Long roomId, LocalDate weekStart) {
+        double[] rates = new double[DAYS_PER_WEEK];
+        if (roomId == null || weekStart == null) {
+            return rates;
+        }
+        for (int offset = 0; offset < DAYS_PER_WEEK; offset++) {
+            rates[offset] = calcUsageRate(roomId, weekStart.plusDays(offset));
+        }
+        return rates;
     }
 
     /** 取某自习室某天的预约（供 StatisticsService 复用）。 */

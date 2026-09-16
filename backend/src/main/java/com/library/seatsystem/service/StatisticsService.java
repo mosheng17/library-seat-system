@@ -44,6 +44,20 @@ public class StatisticsService extends BaseService<Reservation, Long> {
         return usageCalculator.calcPeakHours(roomId, date);
     }
 
+    /**
+     * 按周聚合使用率：取从 {@code weekStart} 起连续 7 天的每日使用率。
+     *
+     * <p>单日使用率由 D 模块的 {@link UsageCalculator} 计算，本方法只做转发，
+     * 保证统计口径唯一，不产生第二套计算逻辑。
+     *
+     * @param roomId    自习室 ID
+     * @param weekStart 周的起始日期（含）
+     * @return 长度为 7 的使用率数组，下标 0 对应 weekStart 当天
+     */
+    public double[] calcWeeklyUsageRate(Long roomId, LocalDate weekStart) {
+        return usageCalculator.calcWeeklyUsageRate(roomId, weekStart);
+    }
+
     /** 按预约开始时间倒序。 */
     public List<Reservation> sortByUsage(List<Reservation> reservations) {
         if (reservations == null || reservations.isEmpty()) {
