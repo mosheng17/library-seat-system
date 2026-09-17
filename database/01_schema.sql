@@ -1,3 +1,6 @@
+-- 防止 CLI 装载时按 latin1 解释导致中文双重编码（实测踩过）
+SET NAMES utf8mb4;
+
 CREATE DATABASE IF NOT EXISTS library_seat_system DEFAULT CHARACTER SET utf8mb4;
 
 USE library_seat_system;
