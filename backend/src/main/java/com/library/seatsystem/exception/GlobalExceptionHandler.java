@@ -3,10 +3,12 @@ package com.library.seatsystem.exception;
 import com.library.seatsystem.common.ApiResponse;
 import java.util.stream.Collectors;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 /**
  * A 系统基建与权限 —— 全局异常处理器。
@@ -29,6 +31,12 @@ public class GlobalExceptionHandler {
 
     /** 客户端请求错误。 */
     private static final int CODE_BAD_REQUEST = 400;
+
+    /** 请求的接口路径不存在。 */
+    private static final int CODE_NOT_FOUND = 404;
+
+    /** HTTP 方法不被支持。 */
+    private static final int CODE_METHOD_NOT_ALLOWED = 405;
 
     /** 服务端内部错误。 */
     private static final int CODE_SERVER_ERROR = 500;
@@ -64,6 +72,32 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MissingServletRequestParameterException.class)
     public ApiResponse<Void> handleMissingParameter(MissingServletRequestParameterException exception) {
         return ApiResponse.error(CODE_BAD_REQUEST, "缺少必需参数：" + exception.getParameterName());
+    }
+
+    /**
+     * 处理请求了不存在的接口路径。
+     *
+     * <p>实测缺陷修复：早期版本没有这一分支，未知路径会被下面的
+     * {@link #handleException(Exception)} 兜底成 500，
+     * 前端因此无法区分"接口地址写错"和"服务器故障"。
+     *
+     * @param exception 资源未找到异常
+     * @return 状态码 404 与请求的路径
+     */
+    @ExceptionHandler(NoResourceFoundException.class)
+    public ApiResponse<Void> handleNotFound(NoResourceFoundException exception) {
+        return ApiResponse.error(CODE_NOT_FOUND, "接口不存在：" + exception.getResourcePath());
+    }
+
+    /**
+     * 处理 HTTP 方法不支持（如对只支持 GET 的接口发 POST）。
+     *
+     * @param exception 方法不支持异常
+     * @return 状态码 405 与不被支持的方法名
+     */
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    public ApiResponse<Void> handleMethodNotSupported(HttpRequestMethodNotSupportedException exception) {
+        return ApiResponse.error(CODE_METHOD_NOT_ALLOWED, "请求方法不支持：" + exception.getMethod());
     }
 
     /**

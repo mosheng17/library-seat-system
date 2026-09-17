@@ -14,6 +14,8 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 /**
  * A 全局异常处理器 GlobalExceptionHandler 的单元测试。
@@ -94,5 +96,30 @@ class GlobalExceptionHandlerTest {
         ApiResponse<Void> response = handler.handleException(new RuntimeException("boom: null pointer"));
         assertEquals(500, response.getCode().intValue());
         assertEquals("服务器内部错误", response.getMessage());
+    }
+
+    @Test
+    @DisplayName("请求了不存在的接口路径：返回 404 而不是 500（实测缺陷修复）")
+    void notFound() {
+        NoResourceFoundException exception = mock(NoResourceFoundException.class);
+        when(exception.getResourcePath()).thenReturn("api/seats");
+
+        ApiResponse<Void> response = handler.handleNotFound(exception);
+
+        assertEquals(404, response.getCode().intValue());
+        assertEquals("接口不存在：api/seats", response.getMessage());
+    }
+
+    @Test
+    @DisplayName("HTTP 方法不支持：返回 405 而不是 500")
+    void methodNotSupported() {
+        HttpRequestMethodNotSupportedException exception =
+                mock(HttpRequestMethodNotSupportedException.class);
+        when(exception.getMethod()).thenReturn("DELETE");
+
+        ApiResponse<Void> response = handler.handleMethodNotSupported(exception);
+
+        assertEquals(405, response.getCode().intValue());
+        assertEquals("请求方法不支持：DELETE", response.getMessage());
     }
 }
